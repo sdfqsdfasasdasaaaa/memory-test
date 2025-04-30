@@ -1,0 +1,68 @@
+from IPython.display import HTML
+
+html_code = """
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>단기 기억 실험</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+        }
+        #words, #inputSection {
+            display: none;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            font-size: 16px;
+        }
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1 id="instruction">다음의 단어들을 1분간 보고<br><b>순서대로</b> 기억해서 입력해 주세요.</h1>
+<div id="words">
+    <h2>사과, doctor, 강, music, 창문, library, 연필, phone, 여름, machine</h2>
+</div>
+
+<div id="inputSection">
+    <h2>앞에서 본 단어들을 <b>순서대로</b> 입력하세요.</h2>
+    <textarea id="response" placeholder="여기에 입력하세요..."></textarea><br><br>
+    <button onclick="saveResponse()">제출</button>
+</div>
+
+<script>
+    function saveResponse() {
+        const text = document.getElementById("response").value;
+        const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "response.txt";
+        link.click();
+    }
+
+    // 단계별 흐름
+    setTimeout(() => {
+        document.getElementById("instruction").style.display = "none";
+        document.getElementById("words").style.display = "block";
+    }, 5000); // 5초 안내문
+
+    setTimeout(() => {
+        document.getElementById("words").style.display = "none";
+        document.getElementById("inputSection").style.display = "block";
+    }, 65000); // 1분 단어 노출 후 입력창
+</script>
+
+</body>
+</html>
+"""
+
+HTML(html_code)
